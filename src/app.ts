@@ -1,17 +1,20 @@
 import express, { Application } from "express";
-import Test from "./api/test";
+import schedule, { Job as ScheduleJob } from "node-schedule";
+
+import { Stock } from "./stock/main";
 
 class App {
     public app: Application;
+    private stock: Stock;
+    scheduler: ScheduleJob;
 
     constructor() {
         this.app = express();
-        this.setMiddleware();
-    }
-
-    setMiddleware() {
         this.app.set("port", 8080);
-        Test();
+
+        this.scheduler = schedule.scheduleJob({ rule: "* * * * * *" }, async () => {
+            this.stock = new Stock();
+        });
     }
 }
 
