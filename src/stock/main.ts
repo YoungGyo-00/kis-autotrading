@@ -1,6 +1,6 @@
 import { Headers, HeadersInit } from "node-fetch";
 import { GRANT_TYPE, APPSECRET, APPKEY } from "../config/env";
-import { KisController } from "./kisController";
+import { OAuthService } from "./services/oauth";
 
 const url: string = "https://openapivts.koreainvestment.com:29443/oauth2/tokenP";
 const requestHeaders: HeadersInit = new Headers();
@@ -9,7 +9,7 @@ const requestBody: Object = {
     appkey: APPKEY,
     appsecret: APPSECRET,
 };
-const options: Object = {
+const options: Option = {
     method: "POST",
     headers: requestHeaders,
     body: JSON.stringify(requestBody),
@@ -21,9 +21,9 @@ export class Stock {
     }
 
     async init() {
-        const kisController = new KisController(url, options);
+        const oAuthService = new OAuthService(url, options);
 
-        await kisController.start();
+        await oAuthService.start();
     }
 
     async start() {}

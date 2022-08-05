@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 
-class KisController {
+class OAuthService {
     constructor(private url: string, private options: Object) {}
 
     async start() {
@@ -10,4 +10,4 @@ class KisController {
     }
 }
 
-export { KisController };
+export { OAuthService };
