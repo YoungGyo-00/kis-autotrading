@@ -23,7 +23,9 @@ export class Stock {
     async init() {
         const oAuthService = new OAuthService(url, options);
 
-        await oAuthService.start();
+        const access_token: String = await oAuthService.token();
+
+        console.log(`Access_token : ${access_token}`);
     }
 
     async start() {}
