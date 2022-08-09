@@ -1,13 +1,14 @@
 import { Headers, HeadersInit } from "node-fetch";
-import { GRANT_TYPE, APPSECRET, APPKEY } from "../config/env";
+import { URL_VTS, GRANT_TYPE, APP_SECRET, APP_KEY } from "../config/env";
 import { OAuthService } from "./services/oauth";
 
-const url: string = "https://openapivts.koreainvestment.com:29443/oauth2/tokenP";
+const PATH: string = "/oauth2/tokenP";
+const URL: string = URL_VTS + PATH;
 const requestHeaders: HeadersInit = new Headers();
 const requestBody: Object = {
     grant_type: GRANT_TYPE,
-    appkey: APPKEY,
-    appsecret: APPSECRET,
+    appkey: APP_KEY,
+    appsecret: APP_SECRET,
 };
 const options: Option = {
     method: "POST",
@@ -21,7 +22,7 @@ export class Stock {
     }
 
     async init() {
-        const oAuthService = new OAuthService(url, options);
+        const oAuthService = new OAuthService(URL, options);
 
         const access_token: String = await oAuthService.token();
 

@@ -6,7 +6,7 @@ import { Stock } from "./stock/main";
 class App {
     public app: Application;
     private stock: Stock;
-    scheduler: ScheduleJob;
+    private scheduler: ScheduleJob;
 
     constructor() {
         this.app = express();
