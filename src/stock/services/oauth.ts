@@ -1,9 +1,33 @@
-import fetch, { Headers, HeadersInit } from "node-fetch";
+import fetch, { Headers, HeadersInit, RequestInit } from "node-fetch";
 
 import { URL_BASE, GRANT_TYPE, APP_SECRET, APP_KEY } from "../../config/env";
 
 class OAuthService {
     constructor() {}
+
+    async hashkey(requestBody: Object): Promise<string> {
+        const url: string = URL_BASE + "/uapi/hashkey";
+
+        const requestHeaders: HeadersInit = new Headers();
+        requestHeaders.append("Content-Type", "application/json");
+        requestHeaders.append("appkey", APP_KEY);
+        requestHeaders.append("appsecret", APP_SECRET);
+
+        const options: RequestInit = {
+            method: "POST",
+            headers: requestHeaders,
+            body: JSON.stringify(requestBody),
+        };
+
+        const hashkey: string = await fetch(url, options)
+            .then(response => response.json())
+            .then(data => {
+                return data.HASH;
+            })
+            .catch(err => new Error(err));
+
+        return hashkey;
+    }
 
     async token(): Promise<string> {
         const url: string = URL_BASE + "/oauth2/tokenP";
@@ -15,7 +39,7 @@ class OAuthService {
             appsecret: APP_SECRET,
         };
 
-        const options: Option = {
+        const options: RequestInit = {
             method: "POST",
             headers: requestHeaders,
             body: JSON.stringify(requestBody),
@@ -41,7 +65,7 @@ class OAuthService {
             token: access_token,
         };
 
-        const options: Option = {
+        const options: RequestInit = {
             method: "POST",
             headers: requestHeaders,
             body: JSON.stringify(requestBody),
@@ -52,10 +76,6 @@ class OAuthService {
             .then(data => console.log(`Message(Code: ${data.code}) : ${data.message}`))
             .catch(err => new Error(err));
     }
-
-    // async hash(): Promise<String> {
-    //     const response = await fetch()
-    // }
 }
 
 export { OAuthService };

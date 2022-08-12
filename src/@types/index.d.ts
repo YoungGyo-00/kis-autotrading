@@ -1,5 +1,10 @@
-import { Option } from "./option";
-
 declare global {
-    interface Option {}
+    namespace NodeJS {
+        interface ProcessEnv {
+            APP_KEY: string;
+            APP_SECRET: string;
+        }
+    }
 }
+
+export {};
