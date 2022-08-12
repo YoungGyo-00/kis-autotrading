@@ -1,11 +1,14 @@
-import fetch, { Headers, HeadersInit, RequestInit } from "node-fetch";
+import fetch, { Headers, HeadersInit, RequestInit, Response } from "node-fetch";
 
 import { URL_BASE, GRANT_TYPE, APP_SECRET, APP_KEY } from "../../config/env";
+import { Method } from "../enums/method";
+import { HashKeyBody, RevokeBody, TokenBody } from "../interfaces/oauth";
 
 class OAuthService {
     constructor() {}
 
-    async hashkey(requestBody: Object): Promise<string> {
+    async hashkey(requestBody: HashKeyBody): Promise<string> {
+        const method: string = Method.POST;
         const url: string = URL_BASE + "/uapi/hashkey";
 
         const requestHeaders: HeadersInit = new Headers();
@@ -14,7 +17,7 @@ class OAuthService {
         requestHeaders.append("appsecret", APP_SECRET);
 
         const options: RequestInit = {
-            method: "POST",
+            method: method,
             headers: requestHeaders,
             body: JSON.stringify(requestBody),
         };
@@ -30,51 +33,57 @@ class OAuthService {
     }
 
     async token(): Promise<string> {
+        const method: string = Method.POST;
         const url: string = URL_BASE + "/oauth2/tokenP";
 
         const requestHeaders: HeadersInit = new Headers();
-        const requestBody: Object = {
+
+        const requestBody: TokenBody = {
             grant_type: GRANT_TYPE,
             appkey: APP_KEY,
             appsecret: APP_SECRET,
         };
 
         const options: RequestInit = {
-            method: "POST",
+            method: method,
             headers: requestHeaders,
             body: JSON.stringify(requestBody),
         };
 
         const access_token: string = await fetch(url, options)
-            .then(response => response.json())
+            .then((response: Response) => response.json())
             .then(data => {
                 return data.access_token;
             })
-            .catch(err => new Error(err));
+            .catch((err: any) => new Error(err));
 
         return access_token;
     }
 
     async revoke(access_token: string): Promise<void> {
+        const method: string = Method.POST;
         const url: string = URL_BASE + "/oauth2/revokeP";
 
         const requestHeaders: HeadersInit = new Headers();
-        const requestBody: Object = {
+        const requestBody: RevokeBody = {
             appkey: APP_KEY,
             appsecret: APP_SECRET,
             token: access_token,
         };
 
         const options: RequestInit = {
-            method: "POST",
+            method: method,
             headers: requestHeaders,
             body: JSON.stringify(requestBody),
         };
 
         await fetch(url, options)
-            .then(response => response.json())
+            .then((response: Response) => response.json())
             .then(data => console.log(`Message(Code: ${data.code}) : ${data.message}`))
-            .catch(err => new Error(err));
+            .catch((err: any) => {
+                console.error(err);
+                new Error(err);
+            });
     }
 }
 
