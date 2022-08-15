@@ -65,6 +65,7 @@ class OAuthService {
         const url: string = URL_BASE + "/oauth2/revokeP";
 
         const requestHeaders: HeadersInit = new Headers();
+
         const requestBody: RevokeBody = {
             appkey: APP_KEY,
             appsecret: APP_SECRET,

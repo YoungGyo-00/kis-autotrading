@@ -7,6 +7,10 @@ declare global {
             APP_SECRET: string;
         }
     }
+
+    interface Signature {
+        [key: string]: any;
+    }
 }
 
 export {};
