@@ -22,7 +22,7 @@ export class Stock {
 
         console.log(`Access_token : ${this.access_token}`);
 
-        await quotationsService.inquire(this.access_token); // 주식 현재 정보 조회
+        await quotationsService.inquireDaily(this.access_token); // 주식 현재 정보 조회
         await oauthService.revoke(this.access_token); // 토큰 폐기
     }
 }
