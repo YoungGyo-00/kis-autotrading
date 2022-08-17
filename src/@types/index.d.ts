@@ -5,6 +5,11 @@ declare global {
             GRANT_TYPE: string;
             APP_KEY: string;
             APP_SECRET: string;
+            DATABASE: string;
+            HOST: string;
+            _USERNAME: string;
+            PASSWORD: string;
+            ENV: string;
         }
     }
 
