@@ -39,9 +39,9 @@ class OAuthService {
         const requestHeaders: HeadersInit = new Headers();
 
         const requestBody: TokenBody = {
-            grant_type: GRANT_TYPE,
-            appkey: APP_KEY,
-            appsecret: APP_SECRET,
+            "grant_type": GRANT_TYPE,
+            "appkey": APP_KEY,
+            "appsecret": APP_SECRET,
         };
 
         const options: RequestInit = {
@@ -67,9 +67,9 @@ class OAuthService {
         const requestHeaders: HeadersInit = new Headers();
 
         const requestBody: RevokeBody = {
-            appkey: APP_KEY,
-            appsecret: APP_SECRET,
-            token: access_token,
+            "appkey": APP_KEY,
+            "appsecret": APP_SECRET,
+            "token": access_token,
         };
 
         const options: RequestInit = {
