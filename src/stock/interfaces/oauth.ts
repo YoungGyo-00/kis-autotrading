@@ -1,7 +1,3 @@
-export interface HashKeyBody {
-    [key: string]: string;
-}
-
 export interface TokenBody {
     grant_type: string;
     appkey: string;

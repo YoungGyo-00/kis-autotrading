@@ -2,12 +2,12 @@ import fetch, { Headers, HeadersInit, RequestInit, Response } from "node-fetch";
 
 import { URL_BASE, GRANT_TYPE, APP_SECRET, APP_KEY } from "../../config/env";
 import { Method } from "../enums/method";
-import { HashKeyBody, RevokeBody, TokenBody } from "../interfaces/oauth";
+import { RevokeBody, TokenBody } from "../interfaces/oauth";
 
 class OAuthService {
     constructor() {}
 
-    async hashkey(requestBody: HashKeyBody): Promise<string> {
+    async hashkey(requestBody: Object): Promise<string> {
         const method: string = Method.POST;
         const url: string = URL_BASE + "/uapi/hashkey";
 

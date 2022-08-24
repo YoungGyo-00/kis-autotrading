@@ -13,12 +13,12 @@ class QuotationsService {
         const method: string = Method.GET;
         const url: string = URL_BASE + "/uapi/domestic-stock/v1/quotations/inquire-price?";
 
-        let params: Signature = {
+        const params: Signature = {
             "FID_COND_MRKT_DIV_CODE": "J", // FID 조건 시장 분류 코드
             "FID_INPUT_ISCD": "353200", // FID 입력 종목 코드
         };
 
-        let query: string = Object.keys(params)
+        const query: string = Object.keys(params)
             .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(params[key]))
             .join("&");
 
