@@ -1,8 +1,8 @@
 import fetch, { Headers, HeadersInit, RequestInit } from "node-fetch";
 import { APP_KEY, APP_SECRET, URL_BASE } from "../../config/env";
-import { Method } from "../enums/method";
-import { OrderCashBody } from "../interfaces/trading";
-import { OAuthService } from "./oauth";
+import { Method } from "../../config/enums/http-method";
+import { OrderCashBody } from "./interface";
+import { OAuthService } from "../oauth/service";
 
 const TR_ID_CASH_BUY = "VTTC0802U"; // 주식 현금 주문(실전): TTTC0802U
 const TR_ID_INQUIRE_BALANCE = "TTTC8434R"; // 실전
@@ -45,7 +45,7 @@ class TradingService {
         console.log(message);
     }
 
-    async inquireBlanace(access_token: string) {
+    async inquireBlanace(access_token: string): Promise<void> {
         const method: string = Method.POST;
         const url: string = URL_BASE + "/uapi/domestic-stock/v1/trading/inquire-balance?";
 

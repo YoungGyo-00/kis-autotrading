@@ -1,3 +1,8 @@
+export interface ITradingService {
+    order(access_token: string): Promise<void>;
+    inquireBlanace(access_token: string): Promise<void>;
+}
+
 export interface OrderCashBody {
     CANO: string; // 종합계좌번호 앞 8자리
     ACNT_PRDT_CD: string; // 뒤 2자리

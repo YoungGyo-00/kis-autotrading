@@ -1,12 +1,13 @@
 import fetch, { Headers, HeadersInit, RequestInit } from "node-fetch";
 
 import { APP_KEY, APP_SECRET, URL_BASE } from "../../config/env";
-import { Method } from "../enums/method";
+import { Method } from "../../config/enums/http-method";
+import { IQuotationsService } from "./interface";
 
 const TR_ID = "FHKST01010100"; // 현재 시세 조회
 const TR_ID_DAILY = "FHKST01010400"; // 최근 시세 조회(30일)
 
-class QuotationsService {
+class QuotationsService implements IQuotationsService {
     constructor() {}
 
     async inquirePrice(access_token: string): Promise<void> {

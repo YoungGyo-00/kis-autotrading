@@ -1,8 +1,8 @@
 import schedule from "node-schedule";
 
-import { OAuthService } from "./services/oauth";
-import { QuotationsService } from "./services/quotations";
-import { TradingService } from "./services/trading";
+import { OAuthService } from "./oauth/service";
+import { QuotationsService } from "./quotations/service";
+import { TradingService } from "./trading/service";
 
 export class Stock {
     public access_token: string;
@@ -24,8 +24,8 @@ export class Stock {
 
         console.log(`Access_token : ${this.access_token}`);
 
-        // await tradingService.inquireBlanace(this.access_token);
-        // await tradingService.order(this.access_token);
+        // await tradingService.inquireBlanace(this.access_token); // 주식 잔고 조회
+        // await tradingService.order(this.access_token); // 주식 주문
         // await quotationsService.inquireDaily(this.access_token); // 주식 현재 정보 조회
         await oauthService.revoke(this.access_token); // 토큰 폐기
     }

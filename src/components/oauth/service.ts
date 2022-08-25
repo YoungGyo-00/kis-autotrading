@@ -1,10 +1,10 @@
 import fetch, { Headers, HeadersInit, RequestInit, Response } from "node-fetch";
 
 import { URL_BASE, GRANT_TYPE, APP_SECRET, APP_KEY } from "../../config/env";
-import { Method } from "../enums/method";
-import { RevokeBody, TokenBody } from "../interfaces/oauth";
+import { Method } from "../../config/enums/http-method";
+import { RevokeBody, TokenBody } from "./interface";
 
-class OAuthService {
+class OAuthService implements OAuthService {
     constructor() {}
 
     async hashkey(requestBody: Object): Promise<string> {

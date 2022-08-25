@@ -1,6 +1,6 @@
 import express, { Application } from "express";
 
-import { Stock } from "./stock";
+import { Stock } from "./components";
 
 class App {
     public app: Application;
