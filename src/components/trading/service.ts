@@ -1,22 +1,21 @@
 import fetch, { Headers, HeadersInit, RequestInit } from "node-fetch";
 import { APP_KEY, APP_SECRET, URL_BASE } from "../../config/env";
 import { Method } from "../../config/enums/http-method";
-import { OrderCashBody } from "./interface";
+import { ITradingService, OrderBody } from "./interface";
 import { OAuthService } from "../oauth/service";
 
-const TR_ID_CASH_BUY = "VTTC0802U"; // 주식 현금 주문(실전): TTTC0802U
 const TR_ID_INQUIRE_BALANCE = "TTTC8434R"; // 실전
 
-class TradingService {
+class TradingService implements ITradingService {
     public oauthService: OAuthService;
     constructor() {
         this.oauthService = new OAuthService();
     }
-    async order(access_token: string): Promise<void> {
+    async order(access_token: string, tr_id: string): Promise<void> {
         const method: string = Method.POST;
         const url: string = URL_BASE + "/uapi/domestic-stock/v1/trading/order-cash";
 
-        const requestBody: OrderCashBody = {
+        const requestBody: OrderBody = {
             "CANO": "20220804", // 종합계좌번호 앞 8자리
             "ACNT_PRDT_CD": "01", // 뒤 2자리
             "PDNO": "353200", // 종목코드(6자리)
@@ -29,7 +28,7 @@ class TradingService {
         requestHeaders.append("authorization", `Bearer ${access_token}`);
         requestHeaders.append("appkey", APP_KEY);
         requestHeaders.append("appsecret", APP_SECRET);
-        requestHeaders.append("tr_id", TR_ID_CASH_BUY);
+        requestHeaders.append("tr_id", tr_id); // 주식 현금 주문(실전): TTTC0802U, 주식 현금 매도 주문 : TTTC0801U
         requestHeaders.append("hashkey", await this.oauthService.hashkey(requestBody));
 
         const options: RequestInit = {

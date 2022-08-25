@@ -12,8 +12,8 @@ export class Stock {
 
     async init() {
         const oauthService = new OAuthService();
-        const quotationsService = new QuotationsService();
-        const tradingService = new TradingService();
+        // const quotationsService = new QuotationsService();
+        // const tradingService = new TradingService();
 
         // 국내 장 시작 시간 : 9시마다 접근 토큰 초기화, 15시 30분 접근 폐기
         // schedule.scheduleJob({ rule: "* * * * * *" }, async () => {

@@ -1,7 +1,7 @@
 export interface IOAuthService {
     hashkey(requestBody: Object): Promise<string>;
-    token(): Promise<string>;
-    revoke(access_token: string): Promise<void>;
+    token(): Promise<string>; // access_token 발급
+    revoke(access_token: string): Promise<void>; // access_token 만료
 }
 
 export interface TokenBody {
