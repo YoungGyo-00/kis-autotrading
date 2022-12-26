@@ -20,13 +20,13 @@ export class Stock {
         //
         // });
 
-        this.access_token = await oauthService.token();
+        // this.access_token = await oauthService.token();
 
-        console.log(`Access_token : ${this.access_token}`);
+        // console.log(`Access_token : ${this.access_token}`);
 
         // await tradingService.inquireBlanace(this.access_token); // 주식 잔고 조회
         // await tradingService.order(this.access_token); // 주식 주문
         // await quotationsService.inquireDaily(this.access_token); // 주식 현재 정보 조회
-        await oauthService.revoke(this.access_token); // 토큰 폐기
+        // await oauthService.revoke(this.access_token); // 토큰 폐기
     }
 }
