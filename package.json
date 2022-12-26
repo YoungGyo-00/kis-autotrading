@@ -4,7 +4,7 @@
     "description": "한국투자증권 KIS Developers Open API 활용 주식 자동 매매 프로그램 제작",
     "main": "app.js",
     "scripts": {
-        "start": "nodemon --watch \"src/**/*.ts\" --exec \"ts-node\" src/config/connection/server.ts",
+        "start": "nodemon -r tsconfig-paths/register --watch \"src/**/*.ts\" --exec \"ts-node\" src/config/connection/server.ts",
         "build": "npx tsc"
     },
     "repository": {
@@ -29,6 +29,7 @@
         "eslint-config-prettier": "^8.5.0",
         "prettier": "^2.7.1",
         "ts-node": "^10.9.1",
+        "tsconfig-paths": "^4.1.1",
         "typescript": "^4.7.4"
     },
     "dependencies": {
