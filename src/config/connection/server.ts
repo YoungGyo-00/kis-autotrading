@@ -3,7 +3,7 @@ import "reflect-metadata";
 import { createConnection } from "typeorm";
 
 import app from "app";
-import { connectionOptions } from "../../database/ormconfig";
+import { connectionOptions } from "database/ormconfig";
 
 createConnection(connectionOptions)
     .then(() => {

@@ -18,7 +18,8 @@
         "emitDecoratorMetadata": true,
         "baseUrl": "src",
         "paths": {
-            "@env": ["config/env"]
+            "@env": ["config/env"],
+            "@method": ["config/enums/http-method.ts"]
         }
     },
     "include": ["src/**/*"],

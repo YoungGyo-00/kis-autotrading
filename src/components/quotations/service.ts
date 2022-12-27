@@ -1,9 +1,8 @@
 import fetch, { Headers, HeadersInit, RequestInit } from "node-fetch";
 
-import { APP_KEY, APP_SECRET, URL_BASE } from "@env";
-
 import { IQuotationsService } from "./interface";
-import { Method } from "config/enums/http-method";
+import { APP_KEY, APP_SECRET, URL_BASE } from "@env";
+import { Method } from "@method";
 
 const TR_ID = "FHKST01010100"; // 현재 시세 조회
 const TR_ID_DAILY = "FHKST01010400"; // 최근 시세 조회(30일)

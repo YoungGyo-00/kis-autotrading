@@ -1,7 +1,7 @@
 import fetch, { Headers, HeadersInit, RequestInit, Response } from "node-fetch";
 
 import { URL_BASE, GRANT_TYPE, APP_SECRET, APP_KEY } from "@env";
-import { Method } from "../../config/enums/http-method";
+import { Method } from "@method";
 import { RevokeBody, TokenBody } from "./interface";
 
 class OAuthService implements OAuthService {
