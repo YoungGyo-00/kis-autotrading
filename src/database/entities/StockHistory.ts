@@ -9,7 +9,7 @@ export class StockHistory extends BaseEntity {
         nullable: false,
         length: 8,
     })
-    tradingDate: string;
+    private tradingDate: string;
 
     // 종목코드
     @PrimaryColumn({
@@ -17,45 +17,70 @@ export class StockHistory extends BaseEntity {
         nullable: false,
         length: 6,
     })
-    itemCode: string;
+    private itemCode: string;
 
     // 종목명
     @Column({
         name: "ITM_NM",
         length: 6,
     })
-    itemName: string;
+    private itemName: string;
 
     // 시작가격
     @Column({
         name: "STRT_PRC",
     })
-    startPrice: number;
+    private startPrice: number;
 
     // 종료가격
     @Column({
         name: "END_PRC",
     })
-    endPrice: number;
+    private endPrice: number;
 
     // 최고가격
     @Column({
         name: "TOP_PRICE",
     })
-    topPrice: number;
+    private topPrice: number;
 
     // 최저가격
     @Column({
         name: "LWST_PRC",
     })
-    lowestPrice: number;
+    private lowestPrice: number;
 
     // 총거래량
     @Column({
         name: "TOT_TRD_QNTY",
     })
-    totalTradingQuntity: number;
+    private totalTradingQuntity: number;
 
     // 공통정보
-    baseEntity: BaseEntity;
+    @Column((type: any) => BaseEntity)
+    private baseEntity: BaseEntity;
+
+    public static createStockHistory = (
+        tradingDate: string,
+        itemCode: string,
+        itemName: string,
+        startPrice: number,
+        endPrice: number,
+        topPrice: number,
+        lowestPrice: number,
+        totalTradingQuntity: number,
+    ): StockHistory => {
+        const stockHistory: StockHistory = new StockHistory();
+
+        stockHistory.tradingDate = tradingDate;
+        stockHistory.itemCode = itemCode;
+        stockHistory.itemName = itemName;
+        stockHistory.startPrice = startPrice;
+        stockHistory.endPrice = endPrice;
+        stockHistory.topPrice = topPrice;
+        stockHistory.lowestPrice = lowestPrice;
+        stockHistory.totalTradingQuntity = totalTradingQuntity;
+
+        return stockHistory;
+    };
 }
