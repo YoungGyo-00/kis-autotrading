@@ -15,7 +15,7 @@ const configs: Signature = {
         synchronize: true,
         logging: true,
         dropSchema: false,
-        entities: [],
+        entities: ["./**/*{.ts}"],
     },
 };
 
