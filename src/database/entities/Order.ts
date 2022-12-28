@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import { OrderList } from "./OrderList";
 
 // 주문설정기본
 @Entity("ORD_STNG_DLST")
@@ -107,6 +108,9 @@ export class Order extends BaseEntity {
     @Column((type: any) => BaseEntity)
     private baseEntity: BaseEntity;
 
+    @OneToMany(type => OrderList, orderlist => orderlist.getOrder)
+    private orderLists: OrderList[];
+
     public static createOrder = (
         tradingDate: string,
         orderSequence: number,
@@ -141,5 +145,9 @@ export class Order extends BaseEntity {
         order.effectYN = effectYN;
 
         return order;
+    };
+
+    public getOrderLists = () => {
+        return this.orderLists;
     };
 }
