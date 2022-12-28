@@ -65,11 +65,37 @@ export class OrderList extends BaseEntity {
         name: "SCSS_YN",
         length: 1,
     })
-    private successYN: number;
+    private successYN: string;
 
     // 공통정보
     @Column((type: any) => BaseEntity)
     private baseEntity: BaseEntity;
+
+    public static createOrder = (
+        order: Order,
+        secompOrderNo: string,
+        itemCode: string,
+        itemOptionCode: string,
+        orderPrice: number,
+        tradingPrice: number,
+        tradingQuantity: number,
+        tradingAmount: number,
+        successYN: string,
+    ): OrderList => {
+        const orderList: OrderList = new OrderList();
+
+        orderList.order = order;
+        orderList.secompOrderNo = secompOrderNo;
+        orderList.itemCode = itemCode;
+        orderList.itemOptionCode = itemOptionCode;
+        orderList.orderPrice = orderPrice;
+        orderList.tradingPrice = tradingPrice;
+        orderList.tradingQuantity = tradingQuantity;
+        orderList.tradingAmount = tradingAmount;
+        orderList.successYN = successYN;
+
+        return orderList;
+    };
 
     public getOrder = () => {
         return this.order;
