@@ -1,6 +1,7 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn } from "typeorm";
 
 import { Order } from "./Order";
+import { OrderCancel } from "./OrderCancel";
 
 // 주문내역
 @Entity("ORD_DIST")
@@ -67,6 +68,9 @@ export class OrderList extends BaseEntity {
     })
     private successYN: string;
 
+    @OneToOne(type => OrderCancel, orderCancel => orderCancel.getOrderList, { lazy: true })
+    private orderCancel: OrderCancel;
+
     // 공통정보
     @Column((type: any) => BaseEntity)
     private baseEntity: BaseEntity;
@@ -99,5 +103,9 @@ export class OrderList extends BaseEntity {
 
     public getOrder = () => {
         return this.order;
+    };
+
+    public getOrderCancel = () => {
+        return this.orderCancel;
     };
 }
