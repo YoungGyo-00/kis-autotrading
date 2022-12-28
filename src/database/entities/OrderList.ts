@@ -1,4 +1,5 @@
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn } from "typeorm";
+import { BaseInfoEntity } from "./base/BaseInfoEntity";
 
 import { Order } from "./Order";
 import { OrderCancel } from "./OrderCancel";
@@ -72,8 +73,8 @@ export class OrderList extends BaseEntity {
     private orderCancel: OrderCancel;
 
     // 공통정보
-    @Column((type: any) => BaseEntity)
-    private baseEntity: BaseEntity;
+    @Column((type: any) => BaseInfoEntity)
+    private baseInfo: BaseInfoEntity;
 
     public static createOrder = (
         order: Order,

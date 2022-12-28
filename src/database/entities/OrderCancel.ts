@@ -1,4 +1,5 @@
 import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseInfoEntity } from "./base/BaseInfoEntity";
 import { OrderList } from "./OrderList";
 
 // 주문취소내역
@@ -21,8 +22,8 @@ export class OrderCancel extends BaseEntity {
     private cancelSecompOrderNo: string;
 
     // 공통정보
-    @Column((type: any) => BaseEntity)
-    private baseEntity: BaseEntity;
+    @Column((type: any) => BaseInfoEntity)
+    private baseInfo: BaseInfoEntity;
 
     public static createOrderCancel = (orderList: OrderList, cancelSecompOrderNo: string): OrderCancel => {
         const orderCancel: OrderCancel = new OrderCancel();

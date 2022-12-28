@@ -1,4 +1,5 @@
 import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import { BaseInfoEntity } from "./base/BaseInfoEntity";
 import { OrderList } from "./OrderList";
 
 // 주문설정기본
@@ -105,8 +106,8 @@ export class Order extends BaseEntity {
     private effectYN: string;
 
     // 공통정보
-    @Column((type: any) => BaseEntity)
-    private baseEntity: BaseEntity;
+    @Column((type: any) => BaseInfoEntity)
+    private baseInfo: BaseInfoEntity;
 
     @OneToMany(type => OrderList, orderlist => orderlist.getOrder)
     private orderLists: OrderList[];
