@@ -12,5 +12,6 @@ const DB_PORT: number = Number(process.env.DB_PORT);
 const _USERNAME: string = process.env._USERNAME;
 const PASSWORD: string = process.env.PASSWORD;
 const ENV: string = process.env.ENV;
+const PORT: number = Number(process.env.PORT);
 
-export { URL_BASE, GRANT_TYPE, APP_KEY, APP_SECRET, DATABASE, HOST, DB_PORT, _USERNAME, PASSWORD, ENV };
+export { URL_BASE, GRANT_TYPE, APP_KEY, APP_SECRET, DATABASE, HOST, DB_PORT, _USERNAME, PASSWORD, ENV, PORT };
