@@ -1,8 +1,8 @@
 import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm";
 
-// 종목일자별주가이력
+// 종목일자별주가이력 - 호가
 @Entity("ITM_DDBY_SHARPRC_HIST")
-export class StockHistory extends BaseEntity {
+export class Quotation extends BaseEntity {
     // 거래일자
     @PrimaryColumn({
         name: "TRD_DD",
@@ -69,18 +69,18 @@ export class StockHistory extends BaseEntity {
         topPrice: number,
         lowestPrice: number,
         totalTradingQuntity: number,
-    ): StockHistory => {
-        const stockHistory: StockHistory = new StockHistory();
+    ): Quotation => {
+        const quotation: Quotation = new Quotation();
 
-        stockHistory.tradingDate = tradingDate;
-        stockHistory.itemCode = itemCode;
-        stockHistory.itemName = itemName;
-        stockHistory.startPrice = startPrice;
-        stockHistory.endPrice = endPrice;
-        stockHistory.topPrice = topPrice;
-        stockHistory.lowestPrice = lowestPrice;
-        stockHistory.totalTradingQuntity = totalTradingQuntity;
+        quotation.tradingDate = tradingDate;
+        quotation.itemCode = itemCode;
+        quotation.itemName = itemName;
+        quotation.startPrice = startPrice;
+        quotation.endPrice = endPrice;
+        quotation.topPrice = topPrice;
+        quotation.lowestPrice = lowestPrice;
+        quotation.totalTradingQuntity = totalTradingQuntity;
 
-        return stockHistory;
+        return quotation;
     };
 }
