@@ -2,8 +2,8 @@ import fetch, { Headers, HeadersInit, RequestInit } from "node-fetch";
 
 import { APP_KEY, APP_SECRET, URL_BASE } from "@env";
 import { Method } from "@method";
-import { ITradingService, OrderBody } from "./interface";
-import { OAuthService } from "../oauth/service";
+import { ITradingService, OrderBody } from "./interface/ITradingService";
+import { OAuthService } from "../oauth/oauthService";
 
 const TR_ID_INQUIRE_BALANCE = "TTTC8434R"; // 실전
 

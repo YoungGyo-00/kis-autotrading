@@ -33,7 +33,7 @@ class App {
     schedular() {
         const crawlerService = new CrawlerService();
 
-        crawlerService.getStockHistory();
+        crawlerService.getTicker();
         // crawling scheduler
         // schedule.scheduleJob({ rule: "0-59 * * * * *" }, async () => {
         //     console.log("crawler 실행");

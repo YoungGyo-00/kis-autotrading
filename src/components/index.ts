@@ -1,8 +1,8 @@
 import schedule from "node-schedule";
 
-import { OAuthService } from "./oauth/service";
-import { QuotationsService } from "./quotations/service";
-import { TradingService } from "./trading/service";
+import { OAuthService } from "./oauth/oauthService";
+import { QuotationsService } from "./quotations/quotationsService";
+import { TradingService } from "./trading/tradingService";
 
 export class Stock {
     public access_token: string;

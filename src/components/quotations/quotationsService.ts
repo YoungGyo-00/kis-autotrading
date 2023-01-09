@@ -1,6 +1,6 @@
 import fetch, { Headers, HeadersInit, RequestInit } from "node-fetch";
 
-import { IQuotationsService } from "./interface";
+import { IQuotationsService } from "./interface/IQuotationsService";
 import { APP_KEY, APP_SECRET, URL_BASE } from "@env";
 import { Method } from "@method";
 
