@@ -8,8 +8,21 @@ import { ICrawlerService } from "./interface/ICrawlerService";
 export class CrawlerService implements ICrawlerService {
     constructor() {}
 
-    // html 불러오기
-    async getHtml(url: string) {
+    // basic html 불러오기
+    async getBasicHtml(url: string, header?: Object): Promise<CheerioRoot> {
+        try {
+            const html = await axios.post(url, { header: header });
+
+            console.log(html);
+            return cheerio.load(html.data);
+        } catch (err) {
+            console.error(err);
+            throw new Error("CrawlerService getBasicHtml 에러");
+        }
+    }
+
+    // html 한글 패치 불러오기
+    async getPatchHtml(url: string, header?: Object): Promise<CheerioRoot> {
         try {
             const req: AxiosResponse<ArrayBuffer> = await axios.get(url, {
                 responseType: "arraybuffer", // 서버에서 응답할 데이터 타입을 설정
@@ -21,22 +34,9 @@ export class CrawlerService implements ICrawlerService {
             const content: string = decoder.decode(html);
 
             return cheerio.load(content);
-        } catch (err) {
+        } catch (err: any) {
             console.error(err);
-
             throw new Error("CrawlerService getHtml 에러");
         }
-    }
-
-    async test() {
-        const $ = await this.getHtml("https://finance.naver.com/item/main.naver?code=353200");
-
-        const contents = $("div.rate_info table tbody tr td").children("span");
-
-        console.log(contents.length);
-
-        contents.each((index, element) => {
-            console.log(index + " : " + $(element).text());
-        });
     }
 }
