@@ -1,3 +1,5 @@
+import { load } from "cheerio";
+
 declare global {
     namespace NodeJS {
         interface ProcessEnv {
@@ -16,6 +18,10 @@ declare global {
     interface Signature {
         [key: string]: any;
     }
+
+    type CheerioRoot = ReturnType<typeof load>;
+    type Cheerio = cheerio.Cheerio;
+    type Tag = cheerio.Element;
 }
 
 export {};
