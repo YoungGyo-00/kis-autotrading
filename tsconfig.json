@@ -19,7 +19,8 @@
         "baseUrl": "src",
         "paths": {
             "@env": ["config/env"],
-            "@method": ["config/enums/http-method.ts"]
+            "@method": ["config/enums/http-method.ts"],
+            "@ticker": ["components/crawler/dtos"]
         }
     },
     "include": ["src/**/*"],
