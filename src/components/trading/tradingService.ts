@@ -1,4 +1,5 @@
 import fetch, { Headers, HeadersInit, RequestInit } from "node-fetch";
+import { Service } from "typedi";
 
 import { APP_KEY, APP_SECRET, URL_BASE } from "@env";
 import { Method } from "@method";
@@ -7,7 +8,8 @@ import { OAuthService } from "../oauth/oauthService";
 
 const TR_ID_INQUIRE_BALANCE = "TTTC8434R"; // 실전
 
-class TradingService implements ITradingService {
+@Service()
+export class TradingService implements ITradingService {
     public oauthService: OAuthService;
     constructor() {
         this.oauthService = new OAuthService();
@@ -85,5 +87,3 @@ class TradingService implements ITradingService {
         console.log(data);
     }
 }
-
-export { TradingService };

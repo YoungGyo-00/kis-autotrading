@@ -2,7 +2,7 @@ import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm";
 
 // 종목일자별주가이력 - 호가
 @Entity("ITM_DDBY_SHARPRC_HIST")
-export class Quotation extends BaseEntity {
+export class Quotations extends BaseEntity {
     // 거래일자
     @PrimaryColumn({
         name: "TRD_DD",
@@ -69,8 +69,8 @@ export class Quotation extends BaseEntity {
         topPrice: number,
         lowestPrice: number,
         totalTradingQuntity: number,
-    ): Quotation => {
-        const quotation: Quotation = new Quotation();
+    ): Quotations => {
+        const quotation: Quotations = new Quotations();
 
         quotation.tradingDate = tradingDate;
         quotation.itemCode = itemCode;

@@ -1,4 +1,5 @@
 import fetch, { Headers, HeadersInit, RequestInit } from "node-fetch";
+import { Service } from "typedi";
 
 import { IQuotationsService } from "./interface/IQuotationsService";
 import { APP_KEY, APP_SECRET, URL_BASE } from "@env";
@@ -7,7 +8,8 @@ import { Method } from "@method";
 const TR_ID = "FHKST01010100"; // 현재 시세 조회
 const TR_ID_DAILY = "FHKST01010400"; // 최근 시세 조회(30일)
 
-class QuotationsService implements IQuotationsService {
+@Service()
+export class QuotationsService implements IQuotationsService {
     constructor() {}
 
     async inquirePrice(access_token: string): Promise<void> {
@@ -74,5 +76,3 @@ class QuotationsService implements IQuotationsService {
         console.log(data);
     }
 }
-
-export { QuotationsService };

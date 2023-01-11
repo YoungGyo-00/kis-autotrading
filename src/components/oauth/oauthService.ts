@@ -1,10 +1,12 @@
 import fetch, { Headers, HeadersInit, RequestInit, Response } from "node-fetch";
+import { Service } from "typedi";
 
 import { URL_BASE, GRANT_TYPE, APP_SECRET, APP_KEY } from "@env";
 import { Method } from "@method";
 import { RevokeBody, TokenBody } from "./interface/IOAuthService";
 
-class OAuthService implements OAuthService {
+@Service()
+export class OAuthService implements OAuthService {
     constructor() {}
 
     async hashkey(requestBody: Object): Promise<string> {
@@ -87,5 +89,3 @@ class OAuthService implements OAuthService {
             });
     }
 }
-
-export { OAuthService };
