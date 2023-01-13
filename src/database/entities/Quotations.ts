@@ -22,7 +22,7 @@ export class Quotations extends BaseEntity {
     // 종목명
     @Column({
         name: "ITM_NM",
-        length: 6,
+        length: 30,
     })
     private itemName: string;
 
