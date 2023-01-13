@@ -60,7 +60,7 @@ export class Quotations extends BaseEntity {
     @Column((type: any) => BaseEntity)
     private baseEntity: BaseEntity;
 
-    public static createStockHistory = (
+    public static createQuotation = (
         tradingDate: string,
         itemCode: string,
         itemName: string,

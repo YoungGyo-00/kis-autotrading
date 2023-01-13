@@ -21,7 +21,8 @@
             "@env": ["config/env"],
             "@method": ["config/enums/http-method.ts"],
             "@ticker": ["components/crawler/dtos"],
-            "@axios": ["config/axios"]
+            "@axios": ["config/axios"],
+            "@entities/*": ["database/entities/*"]
         }
     },
     "include": ["src/**/*"],
