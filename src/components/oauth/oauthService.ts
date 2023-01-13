@@ -1,91 +1,77 @@
-import fetch, { Headers, HeadersInit, RequestInit, Response } from "node-fetch";
 import { Service } from "typedi";
+import { AxiosHeaders, AxiosResponse } from "axios";
 
-import { URL_BASE, GRANT_TYPE, APP_SECRET, APP_KEY } from "@env";
-import { Method } from "@method";
+import { APP_SECRET, APP_KEY, BASE_URL } from "@env";
+import client from "@axios";
 import { RevokeBody, TokenBody } from "./interface/IOAuthService";
 
 @Service()
 export class OAuthService implements OAuthService {
     constructor() {}
 
-    async hashkey(requestBody: Object): Promise<string> {
-        const method: string = Method.POST;
-        const url: string = URL_BASE + "/uapi/hashkey";
+    async hashkey(body: Object): Promise<string> {
+        const requestHeaders: AxiosHeaders = new AxiosHeaders({
+            "Content-Type": "applicaation/json",
+            "appkey": APP_KEY,
+            "appsecret": APP_SECRET,
+        });
 
-        const requestHeaders: HeadersInit = new Headers();
-        requestHeaders.append("Content-Type", "application/json");
-        requestHeaders.append("appkey", APP_KEY);
-        requestHeaders.append("appsecret", APP_SECRET);
-
-        const options: RequestInit = {
-            method: method,
-            headers: requestHeaders,
-            body: JSON.stringify(requestBody),
-        };
-
-        const hashkey: string = await fetch(url, options)
-            .then(response => response.json())
-            .then(data => {
-                return data.HASH;
+        const hashkey: string = await client
+            .post("/uapi/hashkey", body, { headers: requestHeaders })
+            .then((response: AxiosResponse) => {
+                console.log(`HASHKEY 생성\nMessage(Code: ${response.status}) : ${response.statusText}`);
+                return response.data.HASH;
             })
-            .catch(err => new Error(err));
+            .catch((err: any) => {
+                console.error(err);
+                throw new Error("oauthService hashkey error");
+            });
 
         return hashkey;
     }
 
+    // 접근토큰발급(P)
     async token(): Promise<string> {
-        const method: string = Method.POST;
-        const url: string = URL_BASE + "/oauth2/tokenP";
+        const requestHeaders: AxiosHeaders = new AxiosHeaders();
 
-        const requestHeaders: HeadersInit = new Headers();
-
-        const requestBody: TokenBody = {
-            "grant_type": GRANT_TYPE,
+        const body: TokenBody = {
+            "grant_type": "client_credentials",
             "appkey": APP_KEY,
             "appsecret": APP_SECRET,
         };
 
-        const options: RequestInit = {
-            method: method,
-            headers: requestHeaders,
-            body: JSON.stringify(requestBody),
-        };
-
-        const access_token: string = await fetch(url, options)
-            .then((response: Response) => response.json())
-            .then(data => {
-                return data.access_token;
+        const access_token: string = await client
+            .post("/oauth2/tokenP", body, { headers: requestHeaders })
+            .then((response: AxiosResponse) => {
+                console.log(`토큰 생성\nMessage(Code: ${response.status}) : ${response.statusText}`);
+                return response.data.access_token;
             })
-            .catch((err: any) => new Error(err));
+            .catch((err: any) => {
+                console.error(err);
+                throw new Error("oauthService token error");
+            });
 
         return access_token;
     }
 
+    // 접근토큰폐기(P)
     async revoke(access_token: string): Promise<void> {
-        const method: string = Method.POST;
-        const url: string = URL_BASE + "/oauth2/revokeP";
+        const requestHeaders: AxiosHeaders = new AxiosHeaders();
 
-        const requestHeaders: HeadersInit = new Headers();
-
-        const requestBody: RevokeBody = {
+        const body: RevokeBody = {
             "appkey": APP_KEY,
             "appsecret": APP_SECRET,
             "token": access_token,
         };
 
-        const options: RequestInit = {
-            method: method,
-            headers: requestHeaders,
-            body: JSON.stringify(requestBody),
-        };
-
-        await fetch(url, options)
-            .then((response: Response) => response.json())
-            .then(data => console.log(`Message(Code: ${data.code}) : ${data.message}`))
+        await client
+            .post("/oauth2/revokeP", body, { headers: requestHeaders })
+            .then((response: AxiosResponse) => {
+                console.log(`토큰 비활성화\nMessage(Code: ${response.status}) : ${response.statusText}`);
+            })
             .catch((err: any) => {
                 console.error(err);
-                new Error(err);
+                throw new Error("oauthService revoke error");
             });
     }
 }
