@@ -20,7 +20,8 @@
         "paths": {
             "@env": ["config/env"],
             "@method": ["config/enums/http-method.ts"],
-            "@ticker": ["components/crawler/dtos"]
+            "@ticker": ["components/crawler/dtos"],
+            "@axios": ["config/axios"]
         }
     },
     "include": ["src/**/*"],
