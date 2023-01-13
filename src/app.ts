@@ -1,17 +1,13 @@
-import schedule from "node-schedule";
 import express, { Application, NextFunction, Request, Response } from "express";
 
 import { PORT } from "@env";
-import { Stock } from "./components";
-import { CrawlerService } from "components/crawler/crawlerService";
+import { Schedular } from "components/schedular";
 
 class App {
     public app: Application;
-    private stock: Stock;
 
     constructor() {
         this.app = express();
-        this.stock = new Stock();
 
         this.setMiddleWare();
         this.setStatic();
@@ -31,13 +27,7 @@ class App {
     getRouter() {}
 
     schedular() {
-        const crawlerService = new CrawlerService();
-
-        crawlerService.getTicker();
-        // crawling scheduler
-        // schedule.scheduleJob({ rule: "0-59 * * * * *" }, async () => {
-        //     console.log("crawler 실행");
-        // });
+        new Schedular();
     }
 
     errorHandler() {
