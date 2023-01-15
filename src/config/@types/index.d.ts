@@ -11,6 +11,8 @@ declare global {
             _USERNAME: string;
             PASSWORD: string;
             ENV: string;
+            ACNT_PRDT_CD: string;
+            CANO: string;
         }
     }
 

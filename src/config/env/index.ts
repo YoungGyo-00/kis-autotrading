@@ -12,5 +12,7 @@ const _USERNAME: string = process.env._USERNAME;
 const PASSWORD: string = process.env.PASSWORD;
 const ENV: string = process.env.ENV;
 const PORT: number = Number(process.env.PORT);
+const CANO: string = process.env.CANO;
+const ACNT_PRDT_CD: string = process.env.ACNT_PRDT_CD;
 
-export { BASE_URL, APP_KEY, APP_SECRET, DATABASE, HOST, DB_PORT, _USERNAME, PASSWORD, ENV, PORT };
+export { BASE_URL, APP_KEY, APP_SECRET, DATABASE, HOST, DB_PORT, _USERNAME, PASSWORD, ENV, PORT, CANO, ACNT_PRDT_CD };
