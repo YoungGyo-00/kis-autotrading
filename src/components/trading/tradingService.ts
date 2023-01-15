@@ -1,89 +1,112 @@
-import fetch, { Headers, HeadersInit, RequestInit } from "node-fetch";
 import { Service } from "typedi";
 
-import { APP_KEY, APP_SECRET, URL_BASE } from "@env";
-import { Method } from "@method";
+import client from "@axios";
+import { ACNT_PRDT_CD, APP_KEY, APP_SECRET, CANO } from "@env";
 import { ITradingService, OrderBody } from "./interface/ITradingService";
 import { OAuthService } from "../oauth/oauthService";
+import { AxiosHeaders, AxiosResponse } from "axios";
 
-const TR_ID_INQUIRE_BALANCE = "TTTC8434R"; // 실전
+const BUY: string = "TTTC0802U";
+const SELL: string = "TTTC0801U";
+const TR_ID_INQUIRE_BALANCE: string = "TTTC8434R";
 
 @Service()
 export class TradingService implements ITradingService {
-    public oauthService: OAuthService;
-    constructor() {
-        this.oauthService = new OAuthService();
-    }
-    async order(access_token: string, tr_id: string): Promise<void> {
-        const method: string = Method.POST;
-        const url: string = URL_BASE + "/uapi/domestic-stock/v1/trading/order-cash";
+    constructor(private oauthService: OAuthService) {}
 
-        const requestBody: OrderBody = {
-            "CANO": "20220804", // 종합계좌번호 앞 8자리
-            "ACNT_PRDT_CD": "01", // 뒤 2자리
-            "PDNO": "353200", // 종목코드(6자리)
-            "ORD_DVSN": "01", // 00 지정가, 01 시장가, 02 조건부지정가
-            "ORD_QTY": "1", // 주문 수량
-            "ORD_UNPR": "1", // 주문 단가
-        };
+    async order(access_token: string, tr_id: number): Promise<void> {
+        try {
+            let TR_ID: string;
+            let orderType: string;
 
-        const requestHeaders: HeadersInit = new Headers();
-        requestHeaders.append("authorization", `Bearer ${access_token}`);
-        requestHeaders.append("appkey", APP_KEY);
-        requestHeaders.append("appsecret", APP_SECRET);
-        requestHeaders.append("tr_id", tr_id); // 주식 현금 주문(실전): TTTC0802U, 주식 현금 매도 주문 : TTTC0801U
-        requestHeaders.append("hashkey", await this.oauthService.hashkey(requestBody));
+            if (tr_id == 1) {
+                TR_ID = BUY;
+                orderType = "매수";
+            } else if (tr_id == 2) {
+                TR_ID = SELL;
+                orderType = "매도";
+            } else {
+                throw new Error("주문 코드(TR_ID)가 잘못 설정 되었습니다.");
+            }
 
-        const options: RequestInit = {
-            method: method,
-            headers: requestHeaders,
-            body: JSON.stringify(requestBody),
-        };
+            const body: OrderBody = {
+                "CANO": CANO, // 종합계좌번호 앞 8자리
+                "ACNT_PRDT_CD": ACNT_PRDT_CD, // 뒤 2자리
+                "PDNO": "353200", // 종목코드(6자리)
+                "ORD_DVSN": "01", // 00 지정가, 01 시장가, 02 조건부지정가
+                "ORD_QTY": "1", // 주문 수량
+                "ORD_UNPR": "1", // 주문 단가
+            };
 
-        const message: string = await fetch(url, options)
-            .then(response => response.json())
-            .catch(err => new Error(err));
+            const hashkey: string = await this.oauthService.hashkey(body);
 
-        console.log(message);
+            const requestHeaders: AxiosHeaders = new AxiosHeaders({
+                "authorization": `Bearer ${access_token}`,
+                "appkey": APP_KEY,
+                "appsecret": APP_SECRET,
+                "tr_id": TR_ID,
+                "hashkey": hashkey,
+            });
+
+            await client
+                .post("/uapi/domestic-stock/v1/trading/order-cash", body, { headers: requestHeaders })
+                .then((response: AxiosResponse) => {
+                    console.log(`주문 ${orderType} 성공\nMessage(Code: ${response.status}) : ${response.statusText}`);
+                })
+                .catch((err: any) => {
+                    console.error(err);
+                    throw new Error("TradingService order error");
+                });
+        } catch (err: any) {
+            console.error(err);
+        }
     }
 
     async inquireBlanace(access_token: string): Promise<void> {
-        const method: string = Method.POST;
-        const url: string = URL_BASE + "/uapi/domestic-stock/v1/trading/inquire-balance?";
+        try {
+            const params: Signature = {
+                "CANO": CANO,
+                "ACNT_PRDT_CD": ACNT_PRDT_CD,
+                "AFHR_FLPR_YN": "N",
+                "OFL_YN": "",
+                "INQR_DVSN": "1",
+                "UNPR_DVSN": "02",
+                "FUND_STTL_ICLD_YN": "N",
+                "FNCG_AMT_AUTO_RDPT_YN": "N",
+                "PRCS_DVSN": "01",
+                "CTX_AREA_FK100": "",
+                "CTX_AREA_NK100": "",
+            };
 
-        const params: Signature = {
-            "CANO": "68337050", // 계좌 앞 8자리
-            "ACNT_PRDT_CD": "01", // 계좌 뒤 2자리
-            "AFHR_FLPR_YN": "N",
-            "OFL_YN": "",
-            "INQR_DVSN": "1",
-            "UNPR_DVSN": "02",
-            "FUND_STTL_ICLD_YN": "N",
-            "FNCG_AMT_AUTO_RDPT_YN": "N",
-            "PRCS_DVSN": "01",
-            "CTX_AREA_FK100": "",
-            "CTX_AREA_NK100": "",
-        };
+            const query: string = Object.keys(params)
+                .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(params[key]))
+                .join("&");
 
-        const query: string = Object.keys(params)
-            .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(params[key]))
-            .join("&");
+            const requestHeaders: AxiosHeaders = new AxiosHeaders({
+                "authorization": `Bearer ${access_token}`,
+                "appkey": APP_KEY,
+                "appsecret": APP_SECRET,
+                "tr_id": TR_ID_INQUIRE_BALANCE,
+            });
 
-        const requestHeaders: HeadersInit = new Headers();
-        requestHeaders.append("authorization", `Bearer ${access_token}`);
-        requestHeaders.append("appkey", APP_KEY);
-        requestHeaders.append("appsecret", APP_SECRET);
-        requestHeaders.append("tr_id", TR_ID_INQUIRE_BALANCE);
+            await client
+                .post(`/uapi/domestic-stock/v1/trading/inquire-balance?${query}`, { headers: requestHeaders })
+                .then((response: AxiosResponse) => {
+                    console.log(`잔고조회 성공\nMessage(Code: ${response.status}) : ${response.statusText}`);
 
-        const options: RequestInit = {
-            method: method,
-            headers: requestHeaders,
-        };
+                    const dataList = response.data.output;
 
-        const data = await fetch(url + query, options)
-            .then(response => response.json())
-            .catch(err => new Error(err));
-
-        console.log(data);
+                    for (const data of dataList) {
+                        console.log(
+                            `\n종목명 : ${data.prdt_name} | 보유수량 : ${data.hldg_qty} | 평가금액 : ${data.evlu_amt} | 매입평균가격 : ${data.pchs_amt}\n------------------------\n`,
+                        );
+                    }
+                })
+                .catch((err: any) => {
+                    throw new Error("TradingService inquireBlanace error");
+                });
+        } catch (err) {
+            console.log(err);
+        }
     }
 }

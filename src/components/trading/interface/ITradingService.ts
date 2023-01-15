@@ -1,5 +1,5 @@
 export interface ITradingService {
-    order(access_token: string, tr_id: string): Promise<void>; // 주식 현금 주문
+    order(access_token: string, tr_id: number): Promise<void>; // 주식 현금 주문
     inquireBlanace(access_token: string): Promise<void>; // 현재 잔고 상태
 }
 
