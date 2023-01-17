@@ -5,10 +5,12 @@ import { ACNT_PRDT_CD, APP_KEY, APP_SECRET, CANO } from "@env";
 import { ITradingService, OrderBody } from "./interface/ITradingService";
 import { OAuthService } from "../oauth/oauthService";
 import { AxiosHeaders, AxiosResponse } from "axios";
-import { OrderDto } from "./dtos";
+import { InquirePsblOrderDto, OrderDto } from "./dtos";
 
 const BUY: string = "TTTC0802U";
+const BUYABLE: string = "TTTC8908R";
 const SELL: string = "TTTC0801U";
+const SELLABLE: string = "VTTC8908R";
 const TR_ID_INQUIRE_BALANCE: string = "TTTC8434R";
 
 @Service()
@@ -20,7 +22,7 @@ export class TradingService implements ITradingService {
             let TR_ID: string;
             let orderType: string;
 
-            const { trID, itemCode, orderDivision, orderQuantity, orderUnitPrice } = orderDto;
+            const { trID, itemCode, itemName, orderDivision, orderQuantity, orderUnitPrice } = orderDto;
 
             if (trID == 1) {
                 TR_ID = BUY;
@@ -110,6 +112,65 @@ export class TradingService implements ITradingService {
                 });
         } catch (err) {
             console.log(err);
+        }
+    }
+
+    async inquirePsblOrder(access_token: string, inquirePsblOrderDto: InquirePsblOrderDto): Promise<void> {
+        try {
+            let TR_ID: string;
+            let orderType: string;
+
+            const { trID, itemCode, itemName, orderDivision, orderUnitPrice } = inquirePsblOrderDto;
+
+            if (trID == 1) {
+                TR_ID = BUYABLE;
+                orderType = "매수";
+            } else if (trID == 2) {
+                TR_ID = SELLABLE;
+                orderType = "매도";
+            } else {
+                throw new Error("주문 코드(TR_ID)가 잘못 설정 되었습니다.");
+            }
+
+            const params: Signature = {
+                "CANO": CANO,
+                "ACNT_PRDT_CD": ACNT_PRDT_CD,
+                "PDNO": itemCode,
+                "ORD_UNRP": orderUnitPrice,
+                "ORD_DVSN": orderDivision,
+                "CMA_EVLU_AMT_ICLD_YN": "N", // CM평가금액포함여부
+                "OVRS_ICLD_YN": "N", // 해외포함여부
+            };
+
+            const query: string = Object.keys(params)
+                .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(params[key]))
+                .join("&");
+
+            const requestHeaders: AxiosHeaders = new AxiosHeaders({
+                "authorization": `Bearer ${access_token}`,
+                "appkey": APP_KEY,
+                "appsecret": APP_SECRET,
+                "tr_id": TR_ID,
+            });
+
+            const quantity: number = await client
+                .post(`/uapi/domestic-stock/v1/trading/inquire-psbl-order?${query}`, { headers: requestHeaders })
+                .then((response: AxiosResponse) => {
+                    const data = response.data.output;
+
+                    console.log(
+                        `${itemName} ${orderType}가능수량조회 성공\nMessage(Code: ${response.status}) : ${response.statusText}`,
+                    );
+                    console.log(`주문가능현금 : ${data.ord_psbl_cash}, 매수가능수량 : ${data.nrcvb_buy_qty}`);
+
+                    return data.nrcvb_buy_qty;
+                })
+                .catch((err: any) => {
+                    console.error(err);
+                    throw new Error("TradingService inquirePsblOrder error");
+                });
+        } catch (err: any) {
+            console.error(err);
         }
     }
 }

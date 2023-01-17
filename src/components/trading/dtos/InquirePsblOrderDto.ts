@@ -1,9 +1,8 @@
-export class OrderDto {
+export class InquirePsblOrderDto {
     readonly trID: number;
     readonly itemCode: string;
     readonly itemName: string;
     readonly orderDivision: string;
-    readonly orderQuantity: string;
     readonly orderUnitPrice: string;
 
     constructor(body: any) {
@@ -11,7 +10,6 @@ export class OrderDto {
         this.itemCode = body.itemCode;
         this.itemName = body.itemName;
         this.orderDivision = body.orderDivision;
-        this.orderQuantity = body.orderQuantity;
         this.orderUnitPrice = body.orderUnitPrice;
     }
 }

@@ -1,8 +1,9 @@
-import { OrderDto } from "../dtos";
+import { InquirePsblOrderDto, OrderDto } from "../dtos";
 
 export interface ITradingService {
-    order(access_token: string, orderDto: OrderDto): Promise<void>; // 주식 현금 주문
-    inquireBlanace(access_token: string): Promise<void>; // 현재 잔고 상태
+    order(access_token: string, orderDto: OrderDto): Promise<void>; // 주식주문(현금)
+    inquireBlanace(access_token: string): Promise<void>; // 주식잔고조회
+    inquirePsblOrder(access_token: string, inquirePsblOrderDto: InquirePsblOrderDto): Promise<void>; // 매수가능조회
 }
 
 export interface OrderBody {
