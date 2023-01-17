@@ -5,6 +5,7 @@ import { ACNT_PRDT_CD, APP_KEY, APP_SECRET, CANO } from "@env";
 import { ITradingService, OrderBody } from "./interface/ITradingService";
 import { OAuthService } from "../oauth/oauthService";
 import { AxiosHeaders, AxiosResponse } from "axios";
+import { OrderDto } from "./dtos";
 
 const BUY: string = "TTTC0802U";
 const SELL: string = "TTTC0801U";
@@ -14,15 +15,17 @@ const TR_ID_INQUIRE_BALANCE: string = "TTTC8434R";
 export class TradingService implements ITradingService {
     constructor(private oauthService: OAuthService) {}
 
-    async order(access_token: string, tr_id: number): Promise<void> {
+    async order(access_token: string, orderDto: OrderDto): Promise<void> {
         try {
             let TR_ID: string;
             let orderType: string;
 
-            if (tr_id == 1) {
+            const { trID, itemCode, orderDivision, orderQuantity, orderUnitPrice } = orderDto;
+
+            if (trID == 1) {
                 TR_ID = BUY;
                 orderType = "매수";
-            } else if (tr_id == 2) {
+            } else if (trID == 2) {
                 TR_ID = SELL;
                 orderType = "매도";
             } else {
@@ -32,10 +35,10 @@ export class TradingService implements ITradingService {
             const body: OrderBody = {
                 "CANO": CANO, // 종합계좌번호 앞 8자리
                 "ACNT_PRDT_CD": ACNT_PRDT_CD, // 뒤 2자리
-                "PDNO": "353200", // 종목코드(6자리)
-                "ORD_DVSN": "01", // 00 지정가, 01 시장가, 02 조건부지정가
-                "ORD_QTY": "1", // 주문 수량
-                "ORD_UNPR": "1", // 주문 단가
+                "PDNO": itemCode, // 종목코드(6자리)
+                "ORD_DVSN": orderDivision, // 00 지정가, 01 시장가, 02 조건부지정가
+                "ORD_QTY": orderQuantity, // 주문 수량
+                "ORD_UNPR": orderUnitPrice, // 주문 단가
             };
 
             const hashkey: string = await this.oauthService.hashkey(body);
