@@ -1,18 +1,9 @@
 spring:
-  config:
-    activate:
-      on-profile: local
-    import: optional:file:.env.local[.properties]
-  jpa:
-    hibernate:
-      ddl-auto: create
-server:
-  port: 8080
----
-
-spring:
   profiles:
-    active: local
+    active:
+      - local
+    include:
+      - local
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${DB_URL}
@@ -28,6 +19,9 @@ spring:
         show_sql: true
         format_sql: true
         default_batch_fetch_size: 1000
+        ddl-auto: update
+  data:
+    - local
 
 springdoc:
   api-docs:
@@ -41,3 +35,9 @@ springdoc:
     - /**
   cache:
     disabled: true
+
+app:
+  key: ${APPKEY}
+  secret: ${APPSECRET}
+
+base_url: ${BASEURL}
