@@ -1,5 +1,6 @@
 package com.example.kisautotrading.domain.order.domain;
 
+import com.example.kisautotrading.global.common.entity.BaseTimeEntity;
 import com.example.kisautotrading.global.common.entity.YN;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity(name = "ORD_DIST")
-public class OrderList {
+public class OrderList extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

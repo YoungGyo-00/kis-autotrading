@@ -1,5 +1,8 @@
-package com.example.kisautotrading.domain.quotations.domain;
+package com.example.kisautotrading.domain.quotation.domain;
 
+import com.example.kisautotrading.domain.quotation.dto.response.GetInquirePriceDto;
+import com.example.kisautotrading.domain.quotation.vo.QuotationInfoVo;
+import com.example.kisautotrading.global.common.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -10,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity(name = "ITM_DDBY_SHARPRC_HIST")
-public class Quotations {
+public class Quotation extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -40,7 +43,7 @@ public class Quotations {
     private Long totalTradingQuantity; // 총거래
 
     @Builder
-    public Quotations(String tradingDate, String itemCode, String itemName, Long startPrice, Long endPrice, Long topPrice, Long lowestPrice, Long totalTradingQuantity) {
+    public Quotation(String tradingDate, String itemCode, String itemName, Long startPrice, Long endPrice, Long topPrice, Long lowestPrice, Long totalTradingQuantity) {
         this.tradingDate = tradingDate;
         this.itemCode = itemCode;
         this.itemName = itemName;
@@ -49,5 +52,18 @@ public class Quotations {
         this.topPrice = topPrice;
         this.lowestPrice = lowestPrice;
         this.totalTradingQuantity = totalTradingQuantity;
+    }
+
+    public static Quotation of(QuotationInfoVo quotationInfoVo, GetInquirePriceDto getInquirePriceDto) {
+        return Quotation.builder()
+                .tradingDate(quotationInfoVo.getTradingDate())
+                .itemCode(quotationInfoVo.getItemCode())
+                .itemName(quotationInfoVo.getItemName())
+                .startPrice(Long.parseLong(getInquirePriceDto.getStartPrice()))
+                .endPrice(Long.parseLong(getInquirePriceDto.getEndPrice()))
+                .topPrice(Long.parseLong(getInquirePriceDto.getTopPrice()))
+                .lowestPrice(Long.parseLong(getInquirePriceDto.getLowestPrice()))
+                .totalTradingQuantity(Long.parseLong(getInquirePriceDto.getTotalTradingQuantity()))
+                .build();
     }
 }
