@@ -1,12 +1,11 @@
-package com.example.kisautotrading.global.config.util;
+package com.example.kisautotrading.global.util;
 
 import com.example.kisautotrading.global.config.user.OAuthService;
-import com.example.kisautotrading.global.config.util.dto.Output;
+import com.example.kisautotrading.global.common.dto.Output;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
