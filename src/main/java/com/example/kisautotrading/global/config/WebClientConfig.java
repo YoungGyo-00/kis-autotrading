@@ -16,7 +16,7 @@ public class WebClientConfig {
     @Value("${app.key}")
     private String APP_KEY;
 
-    @Value("${app.secret")
+    @Value("${app.secret}")
     private String APP_SECRET;
 
     @Value("${base_url}")
