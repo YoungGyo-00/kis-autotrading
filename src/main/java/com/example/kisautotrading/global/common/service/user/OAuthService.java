@@ -1,6 +1,6 @@
-package com.example.kisautotrading.global.config.user;
+package com.example.kisautotrading.global.common.service.user;
 
-import com.example.kisautotrading.global.config.user.dto.OAuthReqeustDto;
+import com.example.kisautotrading.global.common.service.user.dto.OAuthReqeustDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

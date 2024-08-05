@@ -1,4 +1,4 @@
-package com.example.kisautotrading.global.common.dto;
+package com.example.kisautotrading.global.common.service.webclient.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;

@@ -1,4 +1,4 @@
-package com.example.kisautotrading.global.config.user.dto;
+package com.example.kisautotrading.global.common.service.user.dto;
 
 import lombok.Builder;
 import lombok.Getter;
