@@ -24,7 +24,7 @@ public class QuotationService {
 
     // 주식현재가 시세
     @Transactional
-    public void getInquirePrice(){
+    public void creaetInquirePrice(){
         String url = "/uapi/domestic-stock/v1/quotations/inquire-price";
         String trId = "FHKST01010100";
         String itemCode = "353200";
@@ -45,7 +45,7 @@ public class QuotationService {
     }
 
     @Transactional
-    public void getInquireDailyPrice(){
+    public void createInquireDailyPrice(){
         String url = "/uapi/domestic-stock/v1/quotations/inquire-daily-price";
         String trId = "FHKST01010400";
         String itemCode = "353200";

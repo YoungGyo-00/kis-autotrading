@@ -3,7 +3,7 @@ spring:
     active:
       - local
     include:
-      - local
+      - secret
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${DB_URL}
@@ -22,7 +22,7 @@ spring:
     hibernate:
       ddl-auto: create
   data:
-    - local
+    - secret
 
 springdoc:
   api-docs:
@@ -36,9 +36,3 @@ springdoc:
     - /**
   cache:
     disabled: true
-
-app:
-  key: ${APPKEY}
-  secret: ${APPSECRET}
-
-base_url: ${BASEURL}
