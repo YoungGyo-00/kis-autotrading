@@ -1,6 +1,6 @@
 package com.example.kisautotrading.domain.trading.domain;
 
-import com.example.kisautotrading.domain.trading.dto.response.BuyOrderResponseDto;
+import com.example.kisautotrading.domain.trading.dto.response.OrderResponseDto;
 import com.example.kisautotrading.domain.trading.vo.OrderInfo;
 import com.example.kisautotrading.global.common.entity.BaseTimeEntity;
 import com.example.kisautotrading.global.common.entity.OrderType;
@@ -86,10 +86,10 @@ public class Order extends BaseTimeEntity {
         this.successYN = YN.N;
     }
 
-    public static Order of(BuyOrderResponseDto buyOrderResponseDto, OrderInfo orderInfo) {
+    public static Order of(OrderResponseDto orderResponseDto, OrderInfo orderInfo) {
         return Order.builder()
-                .secompCode(buyOrderResponseDto.getSecompCode())
-                .secompOrderNo(buyOrderResponseDto.getSecompOrderNo())
+                .secompCode(orderResponseDto.getSecompCode())
+                .secompOrderNo(orderResponseDto.getSecompOrderNo())
                 .itemName(orderInfo.getItemName())
                 .itemCode(orderInfo.getItemCode())
                 .itemOptionCode(orderInfo.getOrderDivision())

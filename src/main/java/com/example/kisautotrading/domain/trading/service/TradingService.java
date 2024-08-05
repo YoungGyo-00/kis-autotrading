@@ -1,10 +1,9 @@
 package com.example.kisautotrading.domain.trading.service;
 
 import com.example.kisautotrading.domain.trading.domain.Order;
-import com.example.kisautotrading.domain.trading.dto.request.BuyOrderRequestDto;
-import com.example.kisautotrading.domain.trading.dto.response.BuyOrderResponseDto;
+import com.example.kisautotrading.domain.trading.dto.request.OrderRequestDto;
+import com.example.kisautotrading.domain.trading.dto.response.OrderResponseDto;
 import com.example.kisautotrading.domain.trading.repository.OrderRepository;
-import com.example.kisautotrading.domain.trading.repository.TradingRepository;
 import com.example.kisautotrading.domain.trading.vo.OrderInfo;
 import com.example.kisautotrading.global.common.entity.OrderType;
 import com.example.kisautotrading.global.common.service.webclient.WebClientService;
@@ -36,8 +35,8 @@ public class TradingService {
         String ORD_UNPR = "0";
 
         OrderInfo orderInfo = OrderInfo.of(CANO, ACNT_PRDT_CD, itemName, itemCode, "00", orderType, ORD_QTY, ORD_UNPR);
-        BuyOrderResponseDto buyOrderResponseDto = webClientService.post(url, trId, BuyOrderRequestDto.from(orderInfo), BuyOrderResponseDto.class);
+        OrderResponseDto orderResponseDto = webClientService.post(url, trId, OrderRequestDto.from(orderInfo), OrderResponseDto.class);
 
-        orderRepository.save(Order.of(buyOrderResponseDto, orderInfo));
+        orderRepository.save(Order.of(orderResponseDto, orderInfo));
     }
 }

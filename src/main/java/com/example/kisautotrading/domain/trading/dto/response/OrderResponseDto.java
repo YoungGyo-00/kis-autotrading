@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 @Getter
-public class BuyOrderResponseDto {
+public class OrderResponseDto {
     @JsonProperty("KRX_FWDG_ORD_ORGNO")
     private String secompCode;
 

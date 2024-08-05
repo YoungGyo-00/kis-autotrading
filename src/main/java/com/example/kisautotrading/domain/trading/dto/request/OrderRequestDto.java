@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class BuyOrderRequestDto {
+public class OrderRequestDto {
     @JsonProperty("CANO")
     private String accountNumber;
 
@@ -26,8 +26,8 @@ public class BuyOrderRequestDto {
     @JsonProperty("ORD_UNPR")
     private String orderPrice;
 
-    public static BuyOrderRequestDto from(OrderInfo orderInfo) {
-        return BuyOrderRequestDto.builder()
+    public static OrderRequestDto from(OrderInfo orderInfo) {
+        return OrderRequestDto.builder()
                 .accountNumber(orderInfo.getAccountNumber())
                 .accountProductCode(orderInfo.getAccountProductCode())
                 .itemCode(orderInfo.getItemCode())
