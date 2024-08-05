@@ -1,6 +1,7 @@
 package com.example.kisautotrading.domain.quotation.domain;
 
 import com.example.kisautotrading.domain.quotation.dto.response.GetInquirePriceDto;
+import com.example.kisautotrading.domain.quotation.dto.response.PriceInfo;
 import com.example.kisautotrading.domain.quotation.vo.QuotationInfoVo;
 import com.example.kisautotrading.global.common.entity.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -54,16 +55,16 @@ public class Quotation extends BaseTimeEntity {
         this.totalTradingQuantity = totalTradingQuantity;
     }
 
-    public static Quotation of(QuotationInfoVo quotationInfoVo, GetInquirePriceDto getInquirePriceDto) {
+    public static <T extends PriceInfo> Quotation of(QuotationInfoVo quotationInfoVo, T priceInfo) {
         return Quotation.builder()
                 .tradingDate(quotationInfoVo.getTradingDate())
                 .itemCode(quotationInfoVo.getItemCode())
                 .itemName(quotationInfoVo.getItemName())
-                .startPrice(Long.parseLong(getInquirePriceDto.getStartPrice()))
-                .endPrice(Long.parseLong(getInquirePriceDto.getEndPrice()))
-                .topPrice(Long.parseLong(getInquirePriceDto.getTopPrice()))
-                .lowestPrice(Long.parseLong(getInquirePriceDto.getLowestPrice()))
-                .totalTradingQuantity(Long.parseLong(getInquirePriceDto.getTotalTradingQuantity()))
+                .startPrice(Long.parseLong(priceInfo.getStartPrice()))
+                .endPrice(Long.parseLong(priceInfo.getEndPrice()))
+                .topPrice(Long.parseLong(priceInfo.getTopPrice()))
+                .lowestPrice(Long.parseLong(priceInfo.getLowestPrice()))
+                .totalTradingQuantity(Long.parseLong(priceInfo.getTotalTradingQuantity()))
                 .build();
     }
 }
