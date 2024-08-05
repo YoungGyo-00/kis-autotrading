@@ -1,0 +1,38 @@
+spring:
+  profiles:
+    active:
+      - local
+    include:
+      - secret
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        database-platform: org.hibernate.dialect.MySQL8Dialect
+        show_sql: true
+        format_sql: true
+        default_batch_fetch_size: 1000
+    hibernate:
+      ddl-auto: create
+  data:
+    - secret
+
+springdoc:
+  api-docs:
+    groups:
+      enabled: true
+  swagger-ui:
+    operations-sorter: alpha
+    tags-sorter: alpha
+    path: /swagger-ui
+  paths-to-match:
+    - /**
+  cache:
+    disabled: true
