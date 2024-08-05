@@ -27,15 +27,15 @@ public class TradingService {
     private String ACNT_PRDT_CD;
 
     @Transactional
-    public void createBuyOrder(){
+    public void createOrder(OrderType orderType){
         String url = "/uapi/domestic-stock/v1/trading/order-cash";
-        String trId = "TTTC0802U";
+        String trId = orderType == OrderType.BUY ? "TTTC0802U" : "TTTC0801U";
         String itemName = "대덕전자";
         String itemCode = "353200";
         String ORD_QTY = "1";
         String ORD_UNPR = "0";
 
-        OrderInfo orderInfo = OrderInfo.of(CANO, ACNT_PRDT_CD, itemName, itemCode, "00", OrderType.BUY, ORD_QTY, ORD_UNPR);
+        OrderInfo orderInfo = OrderInfo.of(CANO, ACNT_PRDT_CD, itemName, itemCode, "00", orderType, ORD_QTY, ORD_UNPR);
         BuyOrderResponseDto buyOrderResponseDto = webClientService.post(url, trId, BuyOrderRequestDto.from(orderInfo), BuyOrderResponseDto.class);
 
         orderRepository.save(Order.of(buyOrderResponseDto, orderInfo));
