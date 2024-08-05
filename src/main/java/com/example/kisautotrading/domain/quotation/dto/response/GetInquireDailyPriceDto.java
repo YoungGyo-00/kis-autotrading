@@ -4,11 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 @Getter
-public class GetInquirePriceDto implements PriceInfo {
+public class GetInquireDailyPriceDto implements PriceInfo {
+    @JsonProperty("stck_bsop_date")
+    private String tradingDate;
+
     @JsonProperty("stck_oprc")
     private String startPrice;
 
-    @JsonProperty("stck_prpr")
+    @JsonProperty("stck_clpr")
     private String endPrice;
 
     @JsonProperty("stck_hgpr")
