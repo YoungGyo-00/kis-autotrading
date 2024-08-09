@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Getter;
 
 @Getter
-public class Output implements OutputInterface {
-    @JsonProperty("output")
+public class Output1 implements OutputInterface{
+    @JsonProperty("output1")
     private JsonNode output;
 }
