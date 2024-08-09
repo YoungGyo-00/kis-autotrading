@@ -36,3 +36,13 @@ springdoc:
     - /**
   cache:
     disabled: true
+
+app:
+  key: ${APP_KEY}
+  secret: ${APP_SECRET}
+
+base_url: ${BASE_URL}
+
+account:
+  cano: ${CANO}
+  acnt_prdt_cd: ${ACNT_PRDT_CD}

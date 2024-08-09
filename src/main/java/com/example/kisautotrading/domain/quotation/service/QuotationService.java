@@ -5,6 +5,7 @@ import com.example.kisautotrading.domain.quotation.dto.response.GetInquireDailyP
 import com.example.kisautotrading.domain.quotation.dto.response.GetInquirePriceDto;
 import com.example.kisautotrading.domain.quotation.repository.QuotationRepository;
 import com.example.kisautotrading.domain.quotation.vo.QuotationInfoVo;
+import com.example.kisautotrading.global.common.service.webclient.dto.Output;
 import com.example.kisautotrading.global.util.DateUtil;
 import com.example.kisautotrading.global.common.service.webclient.WebClientService;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,7 @@ public class QuotationService {
         queryParams.put("FID_COND_MRKT_DIV_CODE", "J");
         queryParams.put("FID_INPUT_ISCD", itemCode);
 
-        GetInquirePriceDto getInquirePriceDto = webClientService.getSingle(url, queryParams, trId, GetInquirePriceDto.class);
+        GetInquirePriceDto getInquirePriceDto = webClientService.getSingle(url, queryParams, trId, GetInquirePriceDto.class, Output.class);
         QuotationInfoVo quotationInfoVo = QuotationInfoVo.builder()
                 .tradingDate(DateUtil.getTodayDateString())
                 .itemCode(itemCode)
@@ -44,6 +45,7 @@ public class QuotationService {
         quotationRepository.save(Quotation.of(quotationInfoVo, getInquirePriceDto));
     }
 
+    // 주식 30일 시세 확인
     @Transactional
     public void createInquireDailyPrice(){
         String url = "/uapi/domestic-stock/v1/quotations/inquire-daily-price";
@@ -57,7 +59,7 @@ public class QuotationService {
         queryParams.put("FID_PERIOD_DIV_CODE", "D");
         queryParams.put("FID_ORG_ADJ_PRC", "0");
 
-        List<GetInquireDailyPriceDto> getInquirePriceDailyDtoList = webClientService.getList(url, queryParams, trId, GetInquireDailyPriceDto.class);
+        List<GetInquireDailyPriceDto> getInquirePriceDailyDtoList = webClientService.getList(url, queryParams, trId, GetInquireDailyPriceDto.class, Output.class);
 
         getInquirePriceDailyDtoList.forEach(getInquireDailyPriceDto -> {
             QuotationInfoVo quotationInfoVo = QuotationInfoVo.builder()
