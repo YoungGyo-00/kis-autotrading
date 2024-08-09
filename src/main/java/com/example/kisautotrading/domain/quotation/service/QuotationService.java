@@ -3,6 +3,7 @@ package com.example.kisautotrading.domain.quotation.service;
 import com.example.kisautotrading.domain.quotation.domain.Quotation;
 import com.example.kisautotrading.domain.quotation.dto.response.GetInquireDailyPriceDto;
 import com.example.kisautotrading.domain.quotation.dto.response.GetInquirePriceDto;
+import com.example.kisautotrading.domain.quotation.helper.QuotationRequestHelper;
 import com.example.kisautotrading.domain.quotation.repository.QuotationRepository;
 import com.example.kisautotrading.domain.quotation.vo.QuotationInfoVo;
 import com.example.kisautotrading.global.common.service.webclient.dto.Output;
@@ -22,51 +23,34 @@ import java.util.Map;
 public class QuotationService {
     private final WebClientService webClientService;
     private final QuotationRepository quotationRepository;
+    private final QuotationRequestHelper requestHelper;
 
-    // 주식현재가 시세
+    // 주식 현재가 시세
     @Transactional
-    public void creaetInquirePrice(){
-        String url = "/uapi/domestic-stock/v1/quotations/inquire-price";
-        String trId = "FHKST01010100";
-        String itemCode = "353200";
-        String itemName = "대덕전자";
+    public void createInquirePrice() {
+        String url = requestHelper.getInquirePriceUrl();
+        String trId = requestHelper.getInquirePriceTrId();
 
-        Map<String, String> queryParams = new HashMap<>();
-        queryParams.put("FID_COND_MRKT_DIV_CODE", "J");
-        queryParams.put("FID_INPUT_ISCD", itemCode);
+        Map<String, String> queryParams = requestHelper.getInquirePriceParams();
 
         GetInquirePriceDto getInquirePriceDto = webClientService.getSingle(url, queryParams, trId, GetInquirePriceDto.class, Output.class);
-        QuotationInfoVo quotationInfoVo = QuotationInfoVo.builder()
-                .tradingDate(DateUtil.getTodayDateString())
-                .itemCode(itemCode)
-                .itemName(itemName)
-                .build();
+        QuotationInfoVo quotationInfoVo = requestHelper.createQuotationInfoVo();
 
         quotationRepository.save(Quotation.of(quotationInfoVo, getInquirePriceDto));
     }
 
     // 주식 30일 시세 확인
     @Transactional
-    public void createInquireDailyPrice(){
-        String url = "/uapi/domestic-stock/v1/quotations/inquire-daily-price";
-        String trId = "FHKST01010400";
-        String itemCode = "353200";
-        String itemName = "대덕전자";
+    public void createInquireDailyPrice() {
+        String url = requestHelper.getInquireDailyPriceUrl();
+        String trId = requestHelper.getInquireDailyPriceTrId();
 
-        Map<String, String> queryParams = new HashMap<>();
-        queryParams.put("FID_COND_MRKT_DIV_CODE", "J");
-        queryParams.put("FID_INPUT_ISCD", itemCode);
-        queryParams.put("FID_PERIOD_DIV_CODE", "D");
-        queryParams.put("FID_ORG_ADJ_PRC", "0");
+        Map<String, String> queryParams = requestHelper.getInquireDailyPriceParams();
 
         List<GetInquireDailyPriceDto> getInquirePriceDailyDtoList = webClientService.getList(url, queryParams, trId, GetInquireDailyPriceDto.class, Output.class);
 
         getInquirePriceDailyDtoList.forEach(getInquireDailyPriceDto -> {
-            QuotationInfoVo quotationInfoVo = QuotationInfoVo.builder()
-                    .tradingDate(DateUtil.convertToDashFormat(getInquireDailyPriceDto.getTradingDate()))
-                    .itemCode(itemCode)
-                    .itemName(itemName)
-                    .build();
+            QuotationInfoVo quotationInfoVo = requestHelper.createQuotationInfoVo(getInquireDailyPriceDto.getTradingDate());
             quotationRepository.save(Quotation.of(quotationInfoVo, getInquireDailyPriceDto));
         });
     }
